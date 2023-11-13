@@ -75,7 +75,8 @@ def submenu(workers):
         elif choice == "3":
             sort(workers)
         elif choice == "4":
-            print()
+            find = input("> ")
+            workers.search(find)
         elif choice == "5":
             workers.print_all()
         elif choice == "56":

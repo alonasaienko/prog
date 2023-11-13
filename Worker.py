@@ -7,6 +7,15 @@ def decoratorsort(func):
         return result
     return wrapper
 
+def decoratorsearch(func):
+    def wrapper(obj, key):
+        result = func(obj, key)
+        print(f"Foud successfully")
+        for item in result:
+            print(item)
+        return result
+    return wrapper
+
 class Worker:
     id_count = 1
     def __init__(self, name, surname, department, salary):
@@ -49,8 +58,17 @@ class WorkerDB:
             return sorted(self.workers, key=lambda x: getattr(x, namekey), reverse = True)
         else:
             return sorted(self.workers, key=lambda x: getattr(x, namekey).lower())
+        
+    @decoratorsearch
     def search(self, key):
-        print()
-        return self.workers
+        matches = []
+        for item in self.workers:
+            if (key.lower() in item.name.lower() or
+                key.lower() in item.surname.lower() or
+                key.lower() in item.department.lower() or
+                (isinstance(key, float) and key == item.salary) or
+                (isinstance(item.salary, float) and key in str(item.salary))):
+                matches.append(item)
+        return matches
     
         
