@@ -3,7 +3,7 @@ import csv
 
 def read_workers():
     workers = WorkerDB()
-    with open('/home/alona/універ/2 курс/прога/3-11./data.csv', newline='') as csv_file:
+    with open('/home/alona/універ/2 курс/виробнича практика/test2/data.csv', newline='') as csv_file:
         reader = csv.DictReader(csv_file, delimiter=',')
         for row in reader:
             name = row["name"]
@@ -15,9 +15,9 @@ def read_workers():
     return workers
 
 def write(data):
-    with open('/home/alona/універ/2 курс/прога/3-11./data.csv', 'r') as csv_file:
+    with open('/home/alona/універ/2 курс/виробнича практика/test2/data.csv', 'r') as csv_file:
         content = csv_file.read()
-    with open('/home/alona/універ/2 курс/прога/3-11./data.csv', 'w') as csv_file:
+    with open('/home/alona/універ/2 курс/виробнича практика/test2/data.csv', 'w') as csv_file:
         csv_file.write(content + '\n' + data)
 
 def add(workers):
@@ -34,15 +34,23 @@ def add(workers):
 def sort(workers):
     while True:
         print("Choose sort:")
-        print("name")
-        print("surname")
-        print("department")
-        print("salary")
-        print("3. Exit")
+        print("1. Name")
+        print("2. Surname")
+        print("3. Department")
+        print("4. Salary")
+        print("5. Exit")
 
         choice = input("> ")
-        workers.sort(choice)
-        if choice == "3":
+
+        if choice == "1":
+            workers.sort("name")
+        elif choice == "2":
+            workers.sort("surname")
+        elif choice == "3":
+            workers.sort("department")
+        elif choice == "4":
+            workers.sort("salary")
+        elif choice == "5":
             break
         else:
             print("Wrong choice. Try again.")
@@ -54,7 +62,8 @@ def submenu(workers):
         print("2. Delete worker with id")
         print("3. Sort")
         print("4. Search")
-        print("5. Exit")
+        print("5. Print")
+        print("6. Exit")
 
         choice = input("> ")
         if choice == "1":
@@ -68,6 +77,8 @@ def submenu(workers):
         elif choice == "4":
             print()
         elif choice == "5":
+            workers.print_all()
+        elif choice == "56":
             break
         else:
             print("Wrong choice. Try again.")

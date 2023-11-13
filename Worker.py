@@ -1,17 +1,11 @@
 def decoratorsort(func):
-    def __func(self):
-        print("Sorted successsfully")
-        result = func(self)
-        print(result)
+    def wrapper(obj, namekey):
+        print(f"Sorted successfully by {namekey}")
+        result = func(obj, namekey)
+        for item in result:
+            print(item)
         return result
-    return __func
-
-@staticmethod
-def sort(__func):
-    def __sort(obj, value):
-        print("Sorted successsfully")
-        __func(obj, value)
-    return __sort
+    return wrapper
 
 class Worker:
     id_count = 1
@@ -49,9 +43,12 @@ class WorkerDB:
             print(f"Worker with ID {id} removed successfully!")
             return to_remove
 
-    @sort
+    @decoratorsort
     def sort(self, namekey):
-        return sorted(self.workers, key=lambda x: (x.str(namekey).lower(), x.str(namekey)))
+        if namekey == "salary":
+            return sorted(self.workers, key=lambda x: getattr(x, namekey), reverse = True)
+        else:
+            return sorted(self.workers, key=lambda x: getattr(x, namekey).lower())
     def search(self, key):
         print()
         return self.workers
