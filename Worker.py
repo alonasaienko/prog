@@ -15,12 +15,16 @@ def decoratorsearch(func):
             print(item)
         return result
     return wrapper
+def generate(n):
+    for i in range(n):
+        yield i+1
+
 
 class Worker:
-    id_count = 0
+    line_count = len('/home/alona/універ/2 курс/виробнича практика/test2/data.csv')
+    id_generator = generate(line_count)
     def __init__(self, name, surname, department, salary):
-        Worker.id_count += 1
-        self.__id = Worker.id_count
+        self.__id = next(Worker.id_generator)
         self.name = name
         self.surname = surname
         self.department = department
