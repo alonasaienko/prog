@@ -17,7 +17,7 @@ def decoratorsearch(func):
     return wrapper
 
 class Worker:
-    id_count = 1
+    id_count = 0
     def __init__(self, name, surname, department, salary):
         Worker.id_count += 1
         self.__id = Worker.id_count
@@ -56,6 +56,8 @@ class WorkerDB:
     def sort(self, namekey):
         if namekey == "salary":
             return sorted(self.workers, key=lambda x: getattr(x, namekey), reverse = True)
+        if namekey == "id":
+            return sorted(self.workers, key=lambda x: getattr(x, '_Worker__id'))
         else:
             return sorted(self.workers, key=lambda x: getattr(x, namekey).lower())
         
