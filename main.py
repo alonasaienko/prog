@@ -14,6 +14,7 @@ def read_workers(filename):
                 salary = float(row["salary"])
                 worker = Worker(name, surname, department, salary)
                 workers.add_worker(worker)
+                write(workers,filename)
             except ValueError as e:
                 print(f"Skiping {name} {surname} for errors: {e}")
     return workers

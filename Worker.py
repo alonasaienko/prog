@@ -67,13 +67,13 @@ class WorkerDB:
     @decoratorsearch
     def search(self, key):
         matches = []
-        for item in self.workers:
-            if (key.lower() in item.name.lower() or
-                key.lower() in item.surname.lower() or
-                key.lower() in item.department.lower() or
-                (isinstance(key, float) and key == item.salary) or
-                (isinstance(item.salary, float) and key in str(item.salary))):
-                matches.append(item)
+        for worker in self.workers:
+            if any(
+                key.lower() in str(getattr(worker, attr)).lower()
+                for attr in dir(worker)
+                if not callable(getattr(worker, attr)) and not attr.startswith("__")
+            ):
+                matches.append(worker)
         return matches
     
         
