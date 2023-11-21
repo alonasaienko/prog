@@ -19,7 +19,6 @@ def generate(n):
     for i in range(n):
         yield i+1
 
-
 class Worker:
     line_count = len('/home/alona/універ/2 курс/виробнича практика/test2/data.csv')
     id_generator = generate(line_count)

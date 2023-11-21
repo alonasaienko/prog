@@ -7,12 +7,15 @@ def read_workers(filename):
     with open(filename, newline='') as csv_file:
         reader = csv.DictReader(csv_file, delimiter=',')
         for row in reader:
-            name = row["name"]
-            surname = row["surname"]
-            department = row["department"]
-            salary = float(row["salary"])
-            worker = Worker(name, surname, department, salary)
-            workers.add_worker(worker)
+            try:
+                name = row["name"]
+                surname = row["surname"]
+                department = row["department"]
+                salary = float(row["salary"])
+                worker = Worker(name, surname, department, salary)
+                workers.add_worker(worker)
+            except ValueError as e:
+                print(f"Skiping {name} {surname} for errors: {e}")
     return workers
 
 def write(workers,filename):
