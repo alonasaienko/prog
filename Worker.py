@@ -34,6 +34,10 @@ class Worker:
     def __rshift__(self):
         input(f"{self.name}, {self.surname}, {self.department}, {self.salary}")
 
+    @property
+    def id(self):
+        return self.__id
+
 class WorkerDB:
     def __init__(self):
         self.workers = []
@@ -49,7 +53,7 @@ class WorkerDB:
         to_remove = next((worker for worker in self.workers if str(worker.id) == id), None)
         if not to_remove:
             print(f"No workers found with ID {id}.")
-            return
+            return None
         if to_remove:
             self.workers.remove(to_remove)
             print(f"Worker with ID {id} removed successfully!")

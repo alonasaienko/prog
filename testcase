@@ -1,0 +1,83 @@
+import unittest
+from Worker import Worker, WorkerDB
+
+class Test_Worker(unittest.TestCase):
+    collection = WorkerDB()
+
+    def test_add(self):
+        worker_data = ("John", "Smith", "PR", 4000)
+        worker = Worker(*worker_data)
+        self.collection.add_worker(worker)
+
+        first_worker = self.collection.workers[0]
+        self.assertEqual(first_worker.name, "John")
+
+        worker_data = ("Jo", "Smi", "HR", 5000)
+        worker = Worker(*worker_data)
+        self.collection.add_worker(worker)
+
+        second_worker = self.collection.workers[1]
+        self.assertEqual(second_worker.name, "Jo")
+
+        self.assertEqual(len(self.collection.workers), 2)
+
+    def test_delete(self):
+        worker_data = ("John", "Smith", "PR", 4000)
+        worker = Worker(*worker_data)
+        self.collection.add_worker(worker)
+
+        self.assertEqual(len(self.collection.workers), 3)
+        removed_worker = self.collection.delete_worker(worker.id)
+        self.assertIsNone(removed_worker)
+
+    def test_id(self):
+        worker_data0 = ("John", "Smith", "PR", 4000)
+        worker = Worker(*worker_data0)
+        self.collection.add_worker(worker)
+        first_worker = self.collection.workers[2]
+        self.assertEqual(first_worker.id, 3)
+
+        worker_data1 = ("John", "Smith", "PR", 4000)
+        worker = Worker(*worker_data1)
+        self.collection.add_worker(worker)
+        second_worker = self.collection.workers[3]
+        self.assertEqual(second_worker.id, 4)
+
+        worker_data2 = ("Alice", "Johnson", "IT", 5000)
+        worker = Worker(*worker_data2)
+        self.collection.add_worker(worker)
+        third_worker = self.collection.workers[4]
+        self.assertEqual(third_worker.id, 5)
+
+    def test_validation(self):
+        worker_data0 = ("444", "44", "4", 4000)
+        worker = Worker(*worker_data0)
+        worker = self.collection.add_worker(worker)
+        self.assertIsNone(worker)
+        self.assertEqual(worker, None)
+
+    def test_search(self):
+        worker_data0 = ("Bob", "Williams", "HR", 4500)
+        worker = Worker(*worker_data0)
+        self.collection.add_worker(worker)
+        search = self.collection.search("Bob")
+        self.assertEqual(search[0], worker)
+
+        worker_data0 = ("Bo", "Ailli", "HR", 500)
+        worker1 = Worker(*worker_data0)
+        self.collection.add_worker(worker1)
+
+        list = [worker, worker1]
+
+        search = self.collection.search("Bo")
+        self.assertEqual(search, list)
+
+    def test_sort(self):
+        sorted_workers_name = self.collection.sort("name")
+        self.assertEqual(sorted_workers_name[0].name, "Alice")
+
+        sorted_workers_surname = self.collection.sort("surname")
+        self.assertEqual(sorted_workers_surname[0].surname, "Ailli")
+
+if __name__ == "__main__":
+    unittest.main()
