@@ -1,6 +1,8 @@
 from Worker import Worker, WorkerDB
 import csv
 import os
+import pandas as pd
+import matplotlib.pyplot as plt
 
 def read_workers(filename):
     workers = WorkerDB()
@@ -18,6 +20,26 @@ def read_workers(filename):
             except ValueError as e:
                 print(f"Skiping {name} {surname} for errors: {e}")
     return workers
+
+def pandas(filename):
+    data = pd.read_csv(filename)
+    print(data.to_string())
+
+    department_count = data['department'].value_counts()
+
+    # Bar plot
+    department_count.plot(kind='bar')
+    plt.title('Department Counts')
+    plt.xlabel('Department')
+    plt.ylabel('Count')
+    plt.show()
+
+    # Pie chart
+    fig, ax = plt.subplots()
+    ax.pie(department_count, labels=department_count.index, autopct='%1.1f%%', startangle=90)
+    ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+    plt.title('Department Distribution')
+    plt.show()
 
 def write(workers,filename):
     with open(filename, 'w', newline='') as csv_file:
@@ -111,6 +133,7 @@ def submenu(workers,filename):
 
 def main():
     filename = openfile()
+    pandas(filename)
     workers = read_workers(filename)
     while True:
         print("Choose an option:")

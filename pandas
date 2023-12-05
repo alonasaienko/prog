@@ -1,0 +1,31 @@
+import pandas as pd
+import matplotlib as plt
+
+def open_file():
+    data = pd.read_csv('/home/alona/універ/2 курс/виробнича практика/test2/titanic.csv')
+    print("Survived: ", data[data['Survived']==1].PassengerId.count())
+    print("UnSurvived: ", data[data['Survived']==0].PassengerId.count())
+
+    #print("UnSurvived: ", data['Survived'].value_counts(0))
+    
+    print(data[data['Survived']==0].Pclass.value_counts())
+
+    #print(data[data[data['Survived']==1].dropna(subset = ['Age']).Age < 18])
+    labels = ["Young", "Middle", "Old"]
+    bins = [0,30,60, data['Age'].max()]
+
+    data['Age Category'] = pd.cut(data[data['Survived']==1]['Age'], bins = bins, labels = labels)
+    age_count = data['Age Category'].value_counts()
+
+    age_count.plot(kind='bar')
+    plt.title("Поділ")
+    plt.xlabel("Вік")
+    plt.ylabel("Виживші")
+    plt.show()
+
+
+def main():
+    open_file()
+
+if __name__ == "__main__":
+    main()
